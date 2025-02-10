@@ -62,7 +62,7 @@ Download the dataset and arrange it as the folloing directory tree,
 	|-- gt
 		|-- part1
             |-- ***
-    |-- ***
+	|-- ***
 ```
 
 ## train-and-evaluate-model for implicit-simulation
