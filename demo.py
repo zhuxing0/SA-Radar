@@ -272,9 +272,9 @@ def demo(args):
             RAD_name = RAD_path.split('/')[-2]+'-'+RAD_path.split('/')[-1].split('.')[0]
 
             if args.save_numpy:
-                os.makedirs(args.save_dir, exist_ok=True)
-                save_RAD_dir = os.path.join(args.save_dir, 'RAD')
-                save_gt_dir = os.path.join(args.save_dir, 'gt')
+                os.makedirs(os.path.join(output_directory, args.save_dir), exist_ok=True)
+                save_RAD_dir = os.path.join(output_directory, args.save_dir, 'RAD')
+                save_gt_dir = os.path.join(output_directory, args.save_dir, 'gt')
                 os.makedirs(save_RAD_dir, exist_ok=True)
                 os.makedirs(save_gt_dir, exist_ok=True)
                 os.makedirs(os.path.join(save_RAD_dir, part_name), exist_ok=True)
@@ -295,11 +295,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--restore_ckpt', help="restore checkpoint", default='./ICAFNet/models/icfar-net.pth')
     parser.add_argument('--save_numpy', action='store_true', help='save output as numpy arrays')
-    parser.add_argument('--save_dir', default='/gpfs/essfs/iat/Tsinghua/xiaowq/RADDet/test_sim')
+    parser.add_argument('--save_dir', default='RADDet_test_sim')
 
     parser.add_argument('-r', '--radar_path', help="path to all radar_cube", default='/gpfs/essfs/iat/Tsinghua/xiaowq/RADDet/test')
 
-    parser.add_argument('--output_directory', help="directory to save output", default="./demo-output_icfar/")
+    parser.add_argument('--output_directory', help="directory to save output", default="./demo-output/")
     parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
 
     # ICFARNet Settings    

@@ -220,7 +220,7 @@ if __name__ == '__main__':
     parser.add_argument('--name', default='icfar-net', help="name your experiment")
     parser.add_argument('--restore_ckpt', default=None, help="load the weights from a specific checkpoint")
     parser.add_argument('--mixed_precision', default=True, action='store_true', help='use mixed precision')
-    parser.add_argument('--logdir', default='./checkpoints_icfar/icfar', help='the directory to save logs and checkpoints')
+    parser.add_argument('--logdir', default='./checkpoints/icfar', help='the directory to save logs and checkpoints')
 
     # Training parameters
     parser.add_argument('--batch_size', type=int, default=8, help="batch size used during training.")
