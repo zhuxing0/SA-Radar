@@ -5,6 +5,7 @@ RadarSimReal is a project for simulating radar data, supporting both implicit an
 ## Table of Contents
 
 - [Environment Setup](#environment-setup)
+- [Dataset Preparation](#Dataset-Preparation)
 - [Train and Evaluate Model](#train-and-evaluate-model)
 - [Run Implicit Simulation](#run-implicit-simulation)
 - [Run Explicit Simulation](#run-explicit-simulation)
@@ -24,6 +25,44 @@ pip install tensorboard==2.12.0
 pip install matplotlib
 pip install tqdm
 pip install timm==0.5.4
+```
+
+## Dataset Preparation
+
+Please keep the same directory tree as shown in [GoogleDrive](https://drive.google.com/drive/u/1/folders/1v-AF873jP8p6waChF3pSSqz6HXOOZgkC) or [OneDrive](https://uottawa-my.sharepoint.com/personal/azhan085_uottawa_ca/_layouts/15/guestaccess.aspx?folderid=016d9f28644214b8c8813d618a3809365&authkey=ARvXPjc---r2wTFL6TEuY84&e=bwnfSO)
+
+Download the dataset and arrange it as the folloing directory tree,
+```bash
+|-- train
+	|-- RAD
+		|-- part1
+			|-- ******.npy
+			|-- ******.npy
+		|-- part2
+			|-- ******.npy
+			|-- ******.npy
+	|-- gt
+		|-- part1
+			|-- ******.pickle
+			|-- ******.pickle
+		|-- part2
+			|-- ******.pickle
+			|-- ******.pickle
+	|-- stereo_image
+		|-- part1
+			|-- ******.jpg
+			|-- ******.jpg
+		|-- part2
+			|-- ******.jpg
+			|-- ******.jpg
+|-- test
+	|-- RAD
+		|-- part1
+            |-- ***
+	|-- gt
+		|-- part1
+            |-- ***
+    |-- ***
 ```
 
 ## train-and-evaluate-model for implicit-simulation
