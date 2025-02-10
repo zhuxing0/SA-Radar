@@ -10,15 +10,13 @@ import h5py
 import pdb
 import json
 import matplotlib.pyplot as plt
-import open3d as o3d
 import shutil
 import pickle
 from core.datasets import extract_local_maxima
 import cv2
 import matplotlib.cm as cm
 
-DEVICE = 'cuda'
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2'
 
 def __viz_cube(radar_cube: np.ndarray, cube_vis_path: str, name: str, center_radar_cube = None, rmtree = False, db = False, 
                gca=True, s=3, range_idx_list=None, azimuth_idx_list=None, class_name_list=None):
@@ -198,7 +196,7 @@ def demo(args):
     model = ICFARNet(args) # torch.nn.DataParallel(ICFARNet(args), device_ids=[0])
     model.load_state_dict(torch.load(args.restore_ckpt))
 
-    model.to(DEVICE)
+    model.cuda()
     model.eval()
 
     output_directory = Path(args.output_directory)
@@ -207,7 +205,7 @@ def demo(args):
     class_list = ["person", "bicycle", "car", "motorcycle", "bus", "truck" ]
 
     with torch.no_grad():
-        RAD_path_list = sorted(glob.glob(f'{args.radar_path}/RAD/*/*.npy', recursive=True))
+        RAD_path_list = sorted(glob.glob(f'{args.radar_path}/{args.version}/RAD/*/*.npy', recursive=True))
 
         print(f"Found {len(RAD_path_list)} images. Saving files to {output_directory}/")
 
@@ -251,8 +249,8 @@ def demo(args):
             point_mask = radar_point > 0
             segment_mask = segment_mask * point_mask
 
-            radar_point = torch.from_numpy(radar_point).float().unsqueeze(0).unsqueeze(0).to(DEVICE)
-            segment_mask = torch.from_numpy(segment_mask).float().unsqueeze(0).unsqueeze(0).to(DEVICE)
+            radar_point = torch.from_numpy(radar_point).float().unsqueeze(0).unsqueeze(0).cuda()
+            segment_mask = torch.from_numpy(segment_mask).float().unsqueeze(0).unsqueeze(0).cuda()
 
             with autocast(enabled=args.mixed_precision):
                 radar_cube = model(radar_point, segment_mask)
@@ -272,9 +270,9 @@ def demo(args):
             RAD_name = RAD_path.split('/')[-2]+'-'+RAD_path.split('/')[-1].split('.')[0]
 
             if args.save_numpy:
-                os.makedirs(os.path.join(output_directory, args.save_dir), exist_ok=True)
-                save_RAD_dir = os.path.join(output_directory, args.save_dir, 'RAD')
-                save_gt_dir = os.path.join(output_directory, args.save_dir, 'gt')
+                os.makedirs(os.path.join(output_directory, args.version), exist_ok=True)
+                save_RAD_dir = os.path.join(output_directory, args.version, 'RAD')
+                save_gt_dir = os.path.join(output_directory, args.version, 'gt')
                 os.makedirs(save_RAD_dir, exist_ok=True)
                 os.makedirs(save_gt_dir, exist_ok=True)
                 os.makedirs(os.path.join(save_RAD_dir, part_name), exist_ok=True)
@@ -289,17 +287,17 @@ def demo(args):
             else:
                 __viz_cube(radar_cube_gt, output_directory, f"{RAD_name}_radar_cube_gt-real_box_center", real_sparse_radar_cube, rmtree = True, db = False, gca=False, s=1, range_idx_list=range_idx_list, azimuth_idx_list=azimuth_idx_list, class_name_list=class_name_list)
                 __viz_cube(radar_cube, output_directory, f"{RAD_name}_radar_cube-real_box_center", real_sparse_radar_cube, rmtree = True, db = False, gca=False, s=1, range_idx_list=range_idx_list, azimuth_idx_list=azimuth_idx_list, class_name_list=class_name_list)
-                print('radar_cube_icfar epe:', np.mean(np.abs(radar_cube-radar_cube_gt)))                
+                print('radar_cube_icfar epe:', np.mean(np.abs(radar_cube-radar_cube_gt)))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--restore_ckpt', help="restore checkpoint", default='./ICAFNet/models/icfar-net.pth')
+    parser.add_argument('--restore_ckpt', help="restore checkpoint", default='./models/icfar-net.pth')
+
+    parser.add_argument('--radar_path', help="path to all radar_cube", default='/gpfs/essfs/iat/Tsinghua/xiaowq/RADDet')
+    parser.add_argument("--version", type=str, default="train", help="train or test.")
+    parser.add_argument('--output_directory', help="directory to save output", default="./sim_output/")
     parser.add_argument('--save_numpy', action='store_true', help='save output as numpy arrays')
-    parser.add_argument('--save_dir', default='RADDet_test_sim')
 
-    parser.add_argument('-r', '--radar_path', help="path to all radar_cube", default='/gpfs/essfs/iat/Tsinghua/xiaowq/RADDet/test')
-
-    parser.add_argument('--output_directory', help="directory to save output", default="./demo-output/")
     parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
 
     # ICFARNet Settings    

@@ -11,6 +11,9 @@ from PIL import Image
 import torch.nn.functional as F
 import pdb
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
@@ -61,7 +64,7 @@ def validate(model, dataset=['raddet'], mixed_prec=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--restore_ckpt', help="restore checkpoint", default='./checkpoints_icfar/icfar_raddet_bs3_hourglassv2/icfar-net.pth')
+    parser.add_argument('--restore_ckpt', help="restore checkpoint", default='./models/icfar-net.pth')
     parser.add_argument('--dataset', help="dataset for evaluation", default='raddet', choices=['raddet', 'cruw', 'carada'])
     parser.add_argument('--mixed_precision', default=True, action='store_true', help='use mixed precision')
 
@@ -71,7 +74,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    model = torch.nn.DataParallel(ICFARNet(args), device_ids=[0])
+    model = ICFARNet(args) # torch.nn.DataParallel(ICFARNet(args), device_ids=[0])
 
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s')
