@@ -11,7 +11,6 @@ import os.path as osp
 
 from core.utils import frame_utils
 from core.utils.augmentor import FlowAugmentor
-import h5py
 import pdb
 from scipy.ndimage import maximum_filter
 import pickle
