@@ -25,6 +25,7 @@ pip install tensorboard==2.12.0
 pip install matplotlib
 pip install tqdm
 pip install timm==0.5.4
+pip install numpy==1.26.4
 ```
 
 ## Dataset Preparation
