@@ -2,7 +2,6 @@ import argparse
 import json
 from pathlib import Path
 
-import h5py
 import numpy as np
 from tqdm import tqdm
 import pdb
