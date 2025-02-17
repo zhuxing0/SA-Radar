@@ -16,8 +16,8 @@ RadarSimReal is a project for simulating radar data, supporting both implicit an
 First, create a new Conda environment and specify the Python version:
 
 ```bash
-conda create --prefix /radar_sim_env python=3.11.9
-conda activate /
+conda create -n radar_sim_env python=3.11.9
+conda activate radar_sim_env
 pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
 pip install opencv-python
 pip install scikit-image
