@@ -1,4 +1,4 @@
-# RadarSimReal
+# SA-Radar
 
 RadarSimReal is a project for simulating radar data, supporting both implicit and explicit simulations. This document provides guidance on installation, running, and using the project.
 
