@@ -1,6 +1,8 @@
 # SA-Radar
 
-SA-Radar is a project for simulating radar data, supporting both implicit and explicit simulations. This document provides guidance on installation, running, and using the project.
+SA-Radar is a project for simulating radar data, which can accurately and efficiently simulate the radar cube under any
+radar attribute by capturing the waveform variations of the
+radar cube under different attributes. This document provides guidance on installation, running, and using the project.
 
 ## Table of Contents
 
