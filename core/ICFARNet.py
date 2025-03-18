@@ -23,7 +23,12 @@ class ICFARNet(nn.Module):
         hidden_dims = args.hidden_dims # default 32
         output_dims = args.output_dims # default 1
 
-        self.cube_stem = BasicConv(2, hidden_dims, is_3d=True, kernel_size=3, stride=1, padding=1)
+        if self.args.attribute:
+            add_channels = 4
+        else:
+            add_channels = 0
+
+        self.cube_stem = BasicConv(1+add_channels, hidden_dims, is_3d=True, kernel_size=3, stride=1, padding=1)
         self.cube_agg = hourglass_v2(hidden_dims)
         self.output_layer = nn.Conv3d(8, output_dims, 3, 1, 1, bias=False)
 
@@ -32,12 +37,15 @@ class ICFARNet(nn.Module):
             if isinstance(m, nn.BatchNorm2d):
                 m.eval()
 
-    def forward(self, radar_point, segment_mask):
+    def forward(self, radar_point, sigma=None, g=None, Rs=None, lambda_=None):
         """
             input shape: (B, 1, R, D, A), (B, 1, R, D, A)
             output shape: (B, output_dims, R, D, A)
         """
-        radar_cube = torch.cat((radar_point, segment_mask), dim=1)
+        if self.args.attribute:
+            radar_cube = torch.cat((radar_point, sigma, g, Rs, lambda_), dim=1)
+        else:
+            radar_cube = radar_point
 
         radar_cube = self.cube_stem(radar_cube) # (B, 1, R, D, A) -> (B, hidden_dims, R, D, A)
         radar_cube = self.cube_agg(radar_cube)  # (B, hidden_dims, R, D, A) -> (B, 8, R, D, A)

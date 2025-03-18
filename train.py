@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 import argparse
 import logging
 import numpy as np
@@ -52,14 +52,19 @@ def sequence_loss(radar_cube_gt, radar_cube, segment_mask, args):
     if args.segment_mask_loss:
         segment_mask = segment_mask.squeeze(1)
         segment_mask = segment_mask > 0.5
-        radar_cube_in_bbox = radar_cube[segment_mask]
-        radar_cube_gt_in_bbox = radar_cube_gt[segment_mask]
-
-        smooth_l1_loss_in_bbox = 1.0 * F.smooth_l1_loss(radar_cube_in_bbox, radar_cube_gt_in_bbox, size_average=True)
-        error_cube_in_bbox = (radar_cube_in_bbox - radar_cube_gt_in_bbox).abs()
-        l1_loss_in_bbox = error_cube_in_bbox.mean()
-        loss += smooth_l1_loss_in_bbox
-        loss += l1_loss_in_bbox
+        if torch.sum(segment_mask) == 0:
+            smooth_l1_loss_in_bbox = torch.zeros_like(loss)
+            l1_loss_in_bbox = torch.zeros_like(loss)
+        else:
+            radar_cube_in_bbox = radar_cube[segment_mask]
+            radar_cube_gt_in_bbox = radar_cube_gt[segment_mask]
+            smooth_l1_loss_in_bbox = 1.0 * F.smooth_l1_loss(radar_cube_in_bbox, radar_cube_gt_in_bbox, size_average=True)
+            error_cube_in_bbox = (radar_cube_in_bbox - radar_cube_gt_in_bbox).abs()
+            l1_loss_in_bbox = error_cube_in_bbox.mean()
+        if args.sml1_loss:
+            loss += smooth_l1_loss_in_bbox
+        if args.l1_loss:
+            loss += l1_loss_in_bbox
         metrics = {
             'loss': loss.item(),
             'smooth_l1_loss': smooth_l1_loss.item(),
@@ -168,10 +173,16 @@ def train(args):
         for i_batch, data_blob in enumerate(tqdm(train_loader)):
             optimizer.zero_grad()
             
-            radar_cube_gt, radar_point, segment_mask = [x.cuda() for x in data_blob] # # (B, R, D, A), (B, 1, R, D, A), (B, 1, R, D, A)
+            if args.attribute:
+                radar_cube_gt, radar_point, segment_mask, sigma, g, Rs, lambda_ = [x.cuda() for x in data_blob]
+            else:
+                radar_cube_gt, radar_point, segment_mask = [x.cuda() for x in data_blob] # # (B, R, D, A), (B, 1, R, D, A), (B, 1, R, D, A)
 
             assert model.training
-            radar_cube = model(radar_point, segment_mask) # (B, output_dims, R, D, A)
+            if args.attribute:
+                radar_cube = model(radar_point, sigma, g, Rs, lambda_)
+            else:
+                radar_cube = model(radar_point) # (B, output_dims, R, D, A)
             assert model.training
 
             loss, metrics = sequence_loss(radar_cube_gt, radar_cube, segment_mask, args)
@@ -223,18 +234,21 @@ if __name__ == '__main__':
     parser.add_argument('--logdir', default='./checkpoints/icfar', help='the directory to save logs and checkpoints')
 
     # Training parameters
-    parser.add_argument('--batch_size', type=int, default=8, help="batch size used during training.")
+    parser.add_argument('--batch_size', type=int, default=3, help="batch size used during training.")
     parser.add_argument('--train_datasets', nargs='+', default=['raddet'], help="training datasets.")
-    parser.add_argument('--lr', type=float, default=0.00005, help="max learning rate.")
-    parser.add_argument('--epochs', type=int, default=10, help="length of training schedule.")
+    parser.add_argument('--lr', type=float, default=0.0002, help="max learning rate.")
+    parser.add_argument('--epochs', type=int, default=50, help="length of training schedule.")
     parser.add_argument('--wdecay', type=float, default=.00001, help="Weight decay in optimizer.")
 
     # ICFARNet Settings
     parser.add_argument('--hidden_dims', type=int, default=32, help="hidden_dims.")
     parser.add_argument('--output_dims', type=int, default=1, help="output_dims.")
+    parser.add_argument('--attribute', action='store_true', help="attribute embedding or not")
 
     # loss Settings
     parser.add_argument('--segment_mask_loss', action='store_true', help='use segment_mask_loss')
+    parser.add_argument('--l1_loss', action='store_true', help="")
+    parser.add_argument('--sml1_loss', action='store_true', help="")
 
     # Data augmentation
     parser.add_argument('--img_gamma', type=float, nargs='+', default=None, help="gamma range")

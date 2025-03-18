@@ -66,51 +66,32 @@ Download the dataset and arrange it as the folloing directory tree,
 	|-- ***
 ```
 
-## train-and-evaluate-model for implicit-simulation
-
-### eval the pre-train model on RADDet test set
+## evaluate the pre-train model
 ```python
-python evaluate.py 
+python evaluate.py --restore_ckpt ./models/icfar-net.pth --attribute
 ```
 
-### train and eval your model on RADDet
+## train your model
+
+### prepare for the mixed dataset
 ```python
-python train.py --logdir ./checkpoints/icfar_raddet_bs3_lr0.0002_50e --batch_size 3 --train_datasets raddet --segment_mask_loss --lr 0.0002 --epochs 50
-python evaluate.py --restore_ckpt ./checkpoints/icfar_raddet_bs3_lr0.0002_50e/icfar-net.pth
+python make_mixed_dataset_step1.py 
+python make_mixed_dataset_step2.py 
 ```
 
-## run-implicit-simulation
-
-### run implicit simulation on RADDet train set by the pre-train model
+### train and eval your model on the mixed dataset
 ```python
-python demo.py --save_numpy --version train
+python train.py --logdir ./checkpoints/icfar_mixed_bs3_lr0.0002_50e --train_datasets raddet carrada raddet_by_mr --attribute --segment_mask_loss --l1_loss --sml1_loss
+python evaluate.py --restore_ckpt ./checkpoints/icfar_mixed_bs3_lr0.0002_50e/icfar-net.pth --attribute
 ```
 
-### run implicit simulation on RADDet test set by the pre-train model
-```python
-python demo.py --save_numpy --version test
-```
+## run-radar-simulation
 
-### run implicit simulation on RADDet train set by your model
+### run radar simulation on RADDet train set
 ```python
-python demo.py --restore_ckpt ./checkpoints/icfar_raddet_bs3_lr0.0002_50e/icfar-net.pth --save_numpy --version train
-```
-
-### run implicit simulation on RADDet test set by your model
-```python
-python demo.py --restore_ckpt ./checkpoints/icfar_raddet_bs3_lr0.0002_50e/icfar-net.pth --save_numpy --version test
-```
-
-## run-explicit-simulation
-
-### run explicit simulation on RADDet train set
-```python
-python explicit_simulation_on_RADDet.py --version train
-```
-
-### run explicit simulation on RADDet test set
-```python
-python explicit_simulation_on_RADDet.py --version test
+python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version train --attribute
+or 
+python demo.py --restore_ckpt ./checkpoints/icfar_mixed_bs3_lr0.0002_50e/icfar-net.pth --save_numpy --version train --attribute
 ```
 
 ## notes
