@@ -6,9 +6,9 @@ SA-Radar is a project for simulating radar data, supporting both implicit and ex
 
 - [Environment Setup](#environment-setup)
 - [Dataset Preparation](#Dataset-Preparation)
-- [Train and Evaluate Model](#train-and-evaluate-model)
-- [Run Implicit Simulation](#run-implicit-simulation)
-- [Run Explicit Simulation](#run-explicit-simulation)
+- [Evaluate the Pre-train Model](#evaluate-the-pre-train-model)
+- [Train Your Model](#train-your-model)
+- [Run Radar Simulation](#run-radar-simulation)
 - [Notes](#notes)
 
 ## Environment Setup
