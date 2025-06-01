@@ -44,7 +44,7 @@ matches or surpasses real data, and provides consistent gains when combined with
 ![gif3](./assets/html_sim_data_RADDet_test_sim_000028to001104.gif)
 
 
-## Table of Contents
+## 🚀 Table of Contents
 
 - [Environment Setup](#environment-setup)
 - [Dataset Preparation](#Dataset-Preparation)
