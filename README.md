@@ -157,6 +157,11 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 If you find this repository helpful, please consider citing our paper:
 
 ```bibtex
-
+@article{xxx,
+  title={xxx}, 
+  author={xxx},
+  journal={arXiv preprint arXiv:2505.xxx},
+  year={2025}
+}
 ```
 
