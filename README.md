@@ -17,7 +17,7 @@ This repo contains the official code of our paper: [Simulate Any Radar: Attribut
 
 - June 1, 2025: Release project page.
 
----
+## Overview
 
 <p align="center">
   <img src="assets/radartop_00.png" alt="Overview" width="100%"/>
