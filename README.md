@@ -1,8 +1,23 @@
-# SA-Radar
+# Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding
 
-SA-Radar is a project for simulating radar data, which can accurately and efficiently simulate the radar cube under any
-radar attribute by capturing the waveform variations of the
-radar cube under different attributes. This document provides guidance on installation, running, and using the project.
+[![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://zhuxing0.github.io/projects/SA-Radar)
+[![Website](assets/badge-website.svg)](https://zhuxing0.github.io/projects/SA-Radar)
+
+<p align="center">
+  <img src="imgs/radartop_00.png" alt="Overview" width="100%"/>
+</p>
+
+(a) SA-Radar enables controllable and realistic radar simulation by conditioning on
+customizable radar attributes. It supports flexible scene editing such as attribute modification, actor
+removal, and novel trajectories. (b) SA-Radar improves performance on various tasks including
+semantic segmentation, 2D/3D object detection. In all settings, SA-Radar’s synthetic data either
+matches or surpasses real data, and provides consistent gains when combined with real-world datasets.
+
+<p align="center">
+  <img src="imgs/main_00.png" alt="Framework Overview" width="100%"/>
+</p>
+
+We present SA-Radar (Simulate Any Radar), a radar simulation approach that enables controllable and efficient generation of radar cubes conditioned on customizable radar attributes. Unlike prior generative or physics-based simulators, SA-Radar integrates both paradigms through a waveform-parameterized attribute embedding. We design ICFAR-Net, a 3D U-Net conditioned on radar attributes encoded via waveform parameters, which captures signal variations induced by different radar configurations. This formulation bypasses the need for detailed radar hardware specifications and allows efficient simulation of range-azimuth-Doppler (RAD) tensors across diverse sensor settings. We further construct a mixed real-simulated dataset with attribute annotations to robustly train the network. Extensive evaluations on multiple downstream tasks—including 2D/3D object detection and radar semantic segmentation—demonstrate that SA-Radar’s simulated data is both realistic and effective, consistently improving model performance when used standalone or in combination with real data. Our framework also supports simulation in novel sensor viewpoints and edited scenes, showcasing its potential as a general-purpose radar data engine for autonomous driving applications.
 
 ## Table of Contents
 
@@ -68,12 +83,12 @@ Download the dataset and arrange it as the folloing directory tree,
 	|-- ***
 ```
 
-## evaluate the pre-train model
+## Evaluate the pre-train model
 ```python
 python evaluate.py --restore_ckpt ./models/icfar-net.pth --attribute
 ```
 
-## train your model
+## Train your model
 
 ### prepare for the mixed dataset
 ```python
@@ -87,7 +102,7 @@ python train.py --logdir ./checkpoints/icfar_mixed_bs3_lr0.0002_50e --train_data
 python evaluate.py --restore_ckpt ./checkpoints/icfar_mixed_bs3_lr0.0002_50e/icfar-net.pth --attribute
 ```
 
-## run-radar-simulation
+## Run-radar-simulation
 
 ### run radar simulation on RADDet train set
 ```python
@@ -100,7 +115,7 @@ python demo.py --restore_ckpt ./checkpoints/icfar_mixed_bs3_lr0.0002_50e/icfar-n
 
 #### Attribute Modification
 
-Modify the attribute_list in demo.py directly.
+Modify the *attribute_list* in demo.py directly.
 
 #### Novel Trajectories
 ```python
