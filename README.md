@@ -11,13 +11,13 @@
 
 This repo contains the official code of our paper: [Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding](https://zhuxing0.github.io/projects/SA-Radar).
 
-## News
+## ✨ News
 
 - June 4, 2025: Release paper.
 
 - June 1, 2025: Release project page.
 
-## Overview
+## 📊 Overview
 
 <p align="center">
   <img src="assets/radartop_00.png" alt="Overview" width="100%"/>
@@ -152,4 +152,11 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version train --attribute --remove
 ```
 
-## notes
+# Citation
+
+If you find this repository helpful, please consider citing our paper:
+
+```bibtex
+
+```
+
