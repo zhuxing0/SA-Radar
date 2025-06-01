@@ -1,13 +1,11 @@
 # Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding
 
+<div align="center">
 [![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://zhuxing0.github.io/projects/SA-Radar)
 [![Website](assets/badge-website.svg)](https://zhuxing0.github.io/projects/SA-Radar)
+</div>
 
 This repo contains the official code of our paper: [Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding](https://zhuxing0.github.io/projects/SA-Radar).
-
-From left to right are the RGB image and the range-azimuth slices of the radar cube for Ground-Truth, Simulation, Attribute Modification, Actor Removal, and Novel Trajectory.
-
-![gif1](./assets/01.gif)
 
 ## News
 
@@ -26,6 +24,22 @@ customizable radar attributes. It supports flexible scene editing such as attrib
 removal, and novel trajectories. (b) SA-Radar improves performance on various tasks including
 semantic segmentation, 2D/3D object detection. In all settings, SA-Radar’s synthetic data either
 matches or surpasses real data, and provides consistent gains when combined with real-world datasets.
+
+---
+
+- From left to right are the RGB image and the range-azimuth slices of the radar cube for Ground-Truth, Simulation, Attribute Modification, Actor Removal, and Novel Trajectory.
+
+![gif1](./assets/01.gif)
+
+- Comparison of detection results between the model trained on SA-Radar simulation data and the baseline on real sequences.
+
+![gif2](./assets/html_RADDet_test_000028to001104.gif)
+
+-  Comparison of detection results between the model trained on SA-Radar simulation data and the baseline on simulated sequences.
+
+![gif3](./assets/html_sim_data_RADDet_test_sim_000028to001104.gif)
+
+---
 
 ## Table of Contents
 
