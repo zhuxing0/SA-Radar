@@ -1,8 +1,12 @@
 # Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding
 
 <div align="center">
-[![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://zhuxing0.github.io/projects/SA-Radar)
-[![Website](assets/badge-website.svg)](https://zhuxing0.github.io/projects/SA-Radar)
+<a href="https://zhuxing0.github.io/projects/SA-Radar">
+  <img alt="arxiv" src="https://img.shields.io/badge/arXiv-PDF-b31b1b">
+</a>
+<a href="https://zhuxing0.github.io/projects/SA-Radar">
+    <img alt="Project Page" src="assets/badge-website.svg">
+</a>
 </div>
 
 This repo contains the official code of our paper: [Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding](https://zhuxing0.github.io/projects/SA-Radar).
