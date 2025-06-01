@@ -6,7 +6,11 @@
 This repo contains the official code of our paper: [Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding](https://zhuxing0.github.io/projects/SA-Radar).
 
 ## News
-	June 4, 2025: 🚀 Release paper and project page.
+
+- June 4, 2025: 🚀 Release paper and project page.
+
+- June 4, 2025: 🚀 Release paper and project page.
+
 ---
 
 <p align="center">
