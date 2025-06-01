@@ -5,9 +5,9 @@
 
 This repo contains the official code of our paper: [Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding](https://zhuxing0.github.io/projects/SA-Radar).
 
-<p align="center">
-  <img src="assets/main_00.png" alt="main" width="100%"/>
-</p>
+From left to right are the RGB image and the range-azimuth slices of the radar cube for Ground-Truth, Simulation, Attribute Modification, Actor Removal, and Novel Trajectory.
+
+![gif1](./assets/01.gif)
 
 ## News
 
@@ -41,8 +41,8 @@ matches or surpasses real data, and provides consistent gains when combined with
 First, create a new Conda environment and specify the Python version:
 
 ```bash
-conda create -n radar_sim_env python=3.11.9
-conda activate radar_sim_env
+conda create -n SA_Radar python=3.11.9
+conda activate SA_Radar
 pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
 pip install opencv-python
 pip install scikit-image
