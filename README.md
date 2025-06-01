@@ -152,7 +152,7 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version train --attribute --remove
 ```
 
-# Citation
+# 👥 Citation
 
 If you find this repository helpful, please consider citing our paper:
 
