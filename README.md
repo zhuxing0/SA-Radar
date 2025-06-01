@@ -5,9 +5,9 @@
 
 This repo contains the official code of our paper: [Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding](https://zhuxing0.github.io/projects/SA-Radar).
 
-- From left to right are the RGB image from the RADDet dataset and the range-azimuth slices of the radar cube for Ground-Truth, Simulation, Attribute Modification, Actor Removal, and Novel Trajectory.
-
-![gif1](./assets/01.gif)
+<p align="center">
+  <img src="assets/main_00.png" alt="main" width="100%"/>
+</p>
 
 ## News
 
