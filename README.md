@@ -3,8 +3,14 @@
 [![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://zhuxing0.github.io/projects/SA-Radar)
 [![Website](assets/badge-website.svg)](https://zhuxing0.github.io/projects/SA-Radar)
 
+This repo contains the official code of our paper: [Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding](https://zhuxing0.github.io/projects/SA-Radar).
+
+## News
+	June 4, 2025: 🚀 Release paper and project page.
+---
+
 <p align="center">
-  <img src="imgs/radartop_00.png" alt="Overview" width="100%"/>
+  <img src="assets/radartop_00.png" alt="Overview" width="100%"/>
 </p>
 
 (a) SA-Radar enables controllable and realistic radar simulation by conditioning on
@@ -12,12 +18,6 @@ customizable radar attributes. It supports flexible scene editing such as attrib
 removal, and novel trajectories. (b) SA-Radar improves performance on various tasks including
 semantic segmentation, 2D/3D object detection. In all settings, SA-Radar’s synthetic data either
 matches or surpasses real data, and provides consistent gains when combined with real-world datasets.
-
-<p align="center">
-  <img src="imgs/main_00.png" alt="Framework Overview" width="100%"/>
-</p>
-
-We present SA-Radar (Simulate Any Radar), a radar simulation approach that enables controllable and efficient generation of radar cubes conditioned on customizable radar attributes. Unlike prior generative or physics-based simulators, SA-Radar integrates both paradigms through a waveform-parameterized attribute embedding. We design ICFAR-Net, a 3D U-Net conditioned on radar attributes encoded via waveform parameters, which captures signal variations induced by different radar configurations. This formulation bypasses the need for detailed radar hardware specifications and allows efficient simulation of range-azimuth-Doppler (RAD) tensors across diverse sensor settings. We further construct a mixed real-simulated dataset with attribute annotations to robustly train the network. Extensive evaluations on multiple downstream tasks—including 2D/3D object detection and radar semantic segmentation—demonstrate that SA-Radar’s simulated data is both realistic and effective, consistently improving model performance when used standalone or in combination with real data. Our framework also supports simulation in novel sensor viewpoints and edited scenes, showcasing its potential as a general-purpose radar data engine for autonomous driving applications.
 
 ## Table of Contents
 
