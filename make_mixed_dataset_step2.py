@@ -21,8 +21,8 @@ def generate_radar_cube_by_real_cube_fastv1(real_cube, real_bboxs, bg_npy_dir, b
     radar_dict = {'sigma_r': 2.6+sigma_r_bias,
 
                   'N_list_min': 8+N_list_bias,
-                  'N_list_max': 10+N_list_bias, # 窗越长，主瓣越窄, 旁瓣也越窄
-                  'num_log_a_list_min': 2+num_log_a_bias, # num_log_a-a_bias都与旁瓣能量占比成正相关
+                  'N_list_max': 10+N_list_bias,
+                  'num_log_a_list_min': 2+num_log_a_bias,
                   'num_log_a_list_max': 4+num_log_a_bias,
                   'a_bias_list_min': 1,
                   'a_bias_list_max': 1.5,
@@ -74,7 +74,6 @@ def generate_radar_cube_by_real_cube_fastv1(real_cube, real_bboxs, bg_npy_dir, b
 
             noise_rcs_max = img_ref[range_i, azimuth_i]
 
-            # 计算距离方向的高斯响应
             PSF_r = np.exp(-((range_bins - range_i) ** 2) / (2 * sigma_r ** 2))
             
             PSF_d = 0.0
@@ -85,20 +84,13 @@ def generate_radar_cube_by_real_cube_fastv1(real_cube, real_bboxs, bg_npy_dir, b
 
             PSF_d = np.clip(PSF_d * g_bias - (g_bias-1)*max(PSF_d), 0, 10000)
 
-            # 可以根据需要调整窗的长度, 窗越长，主瓣越窄, 旁瓣也越窄
             N = max(1, int(N_list[idx] * num_azimuth_bins / 256)) 
             pangban = radar_dict['pangban']
             window = np.arange(0, N).astype(np.float64)
             window = (1-pangban)-pangban*np.cos(2*np.pi*window/N-1)
-            # 计算窗的傅里叶变换
-            spectrum = np.fft.fft(window, n=num_azimuth_bins)  # 使用零填充到1024点
-            spectrum = np.fft.fftshift(spectrum)  # 将频谱中心化
+            spectrum = np.fft.fft(window, n=num_azimuth_bins)
+            spectrum = np.fft.fftshift(spectrum)
             PSF_a = np.abs(np.roll(spectrum, azimuth_i-num_azimuth_bins//2))
-            '''
-                通过 log10 和 a_bias 来控制主瓣和旁瓣之间的峰值比, 具体实验结果如下：
-                num_log_a-a_bias: 2-1.0=0.716; 3-1.0=0.876; 3-1.0=0.876; 3-1.5=0.914; 4-1.0=0.951
-                参考实际数值: 0.88/0.80/0.74/0.87/0.90等
-            '''
             for _ in range(num_log_a_list[idx]):
                 PSF_a = 10 * np.log10(PSF_a + a_bias_list[idx])
 
@@ -107,7 +99,6 @@ def generate_radar_cube_by_real_cube_fastv1(real_cube, real_bboxs, bg_npy_dir, b
             # However, we found that in real radar datasets (like RADDet), the radar cube does not show significant intensity attenuation (suspected to be removed in preprocessing), so we set ratio_i = 1.0
             ratio_i = 1.0  # ratio_i = 1.0 / (range_i**4) 
 
-            # 这一步是代码慢的主要原因。
             PSF_r, PSF_d, PSF_a = PSF_r-np.min(PSF_r), PSF_d-np.min(PSF_d), PSF_a-np.min(PSF_a)
             pseudo_radar_cube_noise_point = ratio_i * PSF_r[:, None, None] * PSF_d[None, :, None] * PSF_a[None, None, :]
             pseudo_radar_cube_noise_point = noise_rcs_max / np.max(pseudo_radar_cube_noise_point) * pseudo_radar_cube_noise_point
@@ -197,7 +188,6 @@ def main(args):
 
         time_end_generate = time.time()
         print(f"  generate radar cube '{part_name}-{cube_name}' time: {time_end_generate - time_start_generate}")
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

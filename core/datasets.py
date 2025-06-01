@@ -7,7 +7,6 @@ import os
 from glob import glob
 import os.path as osp
 import json
-from core.utils.augmentor import FlowAugmentor
 from scipy.ndimage import maximum_filter
 import pickle
 
@@ -28,9 +27,8 @@ def compute_the_Attribute(sigma_r_bias, N_list_bias, num_log_a_bias, g_bias=1.0)
             for a_bias in a_bias_list:
                 window = np.arange(0, N_now).astype(np.float64)
                 window = (1-pangban)-pangban*np.cos(2*np.pi*window/N_now-1)
-                # 计算窗的傅里叶变换
-                spectrum = np.fft.fft(window, n=num_azimuth_bins)  # 使用零填充到1024点
-                spectrum = np.fft.fftshift(spectrum)  # 将频谱中心化
+                spectrum = np.fft.fft(window, n=num_azimuth_bins)
+                spectrum = np.fft.fftshift(spectrum)
                 PSF_a = np.abs(np.roll(spectrum, azimuth_i-num_azimuth_bins//2)) 
                 for _ in range(num_log_a):
                     PSF_a = 10 * np.log10(PSF_a + a_bias)
@@ -58,8 +56,6 @@ def extract_local_maxima(img):
 class zeroDataset(data.Dataset):
     def __init__(self, aug_params=None, dataset='raddet', Attribute=False, real_data=True):
         self.augmentor = None
-        if aug_params is not None and "crop_size" in aug_params:
-            self.augmentor = FlowAugmentor(**aug_params)
 
         self.RAD_path_list = []
         self.class_list = ["person", "bicycle", "car", "motorcycle", "bus", "truck" ]
@@ -176,7 +172,6 @@ class RADDet_Dataset(zeroDataset):
                 if Attributes is not None:
                     self.Attribute_list.append(Attributes)
                 else:
-                    # {part_name}_{cube_name}_{sigma_r_bias}_{N_list_bias}_{num_log_a_bias}.npy
                     RAD_name = os.path.basename(RAD_path).replace('.npy', '')
                     sigma_r_bias, N_list_bias, num_log_a_bias, g_bias = float(RAD_name.split('_')[-4]), float(RAD_name.split('_')[-3]), float(RAD_name.split('_')[-2]), float(RAD_name.split('_')[-1])
                     self.Attribute_list.append(compute_the_Attribute(sigma_r_bias, N_list_bias, num_log_a_bias, g_bias))
@@ -232,32 +227,29 @@ class Carrada_Dataset(zeroDataset):
                 self.Attribute_list.append(Attributes)
 
 def fetch_dataloader(args):
-    """ Create the data loader for the corresponding trainign set """
+    """ Create the data loader """
 
-    aug_params = {'min_scale': args.spatial_scale[0], 'max_scale': args.spatial_scale[1], 'do_flip': False, 'yjitter': not args.noyjitter}
-    if hasattr(args, "saturation_range") and args.saturation_range is not None:
-        aug_params["saturation_range"] = args.saturation_range
-    if hasattr(args, "img_gamma") and args.img_gamma is not None:
-        aug_params["gamma"] = args.img_gamma
-    if hasattr(args, "do_flip") and args.do_flip is not None:
-        aug_params["do_flip"] = args.do_flip
+    aug_params = None
 
     train_dataset = None
     for dataset_name in args.train_datasets:
         if dataset_name == 'raddet':
             new_dataset = RADDet_Dataset(aug_params, root='dataset/RADDet', attribute=args.attribute, Attributes=compute_the_Attribute(sigma_r_bias=0.057, N_list_bias=0, num_log_a_bias=0))
             logging.info(f"Adding {len(new_dataset)} samples from raddet dataset")
-        elif dataset_name == 'raddet_by_mr':
-            new_dataset = RADDet_Dataset(aug_params, root='sim_output/EXsim_onRADDAT_multi-radar', split='train', attribute=args.attribute, Attributes=None, real_data=False)
-            logging.info(f"Adding {len(new_dataset)} samples from raddet_by_mr dataset")
+
         elif dataset_name == 'carrada':
             new_dataset = Carrada_Dataset(aug_params, root='dataset/Carrada', attribute=args.attribute, Attributes=compute_the_Attribute(sigma_r_bias=0.2, N_list_bias=0, num_log_a_bias=0))
             logging.info(f"Adding {len(new_dataset)} samples from carrada dataset")
+
+        elif dataset_name == 'raddet_by_mr':
+            new_dataset = RADDet_Dataset(aug_params, root='sim_output/EXsim_onRADDAT_multi-radar', split='train', attribute=args.attribute, Attributes=None, real_data=False)
+            logging.info(f"Adding {len(new_dataset)} samples from raddet_by_mr dataset")
+
         train_dataset = new_dataset if train_dataset is None else train_dataset + new_dataset
     
     train_loader = data.DataLoader(train_dataset, batch_size=args.batch_size, 
-        pin_memory=True, shuffle=True, num_workers=8, drop_last=True) # int(os.environ.get('SLURM_CPUS_PER_TASK', 6))-2
-
+        pin_memory=True, shuffle=True, num_workers=8, drop_last=True)
+    
     logging.info('Training with %d cubes' % len(train_dataset))
     return train_loader
 

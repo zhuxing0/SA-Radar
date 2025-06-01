@@ -96,4 +96,20 @@ or
 python demo.py --restore_ckpt ./checkpoints/icfar_mixed_bs3_lr0.0002_50e/icfar-net.pth --save_numpy --version train --attribute
 ```
 
+### Scene Editing
+
+#### Attribute Modification
+
+Modify the attribute_list in demo.py directly.
+
+#### Novel Trajectories
+```python
+python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version train --attribute --angle_rotation
+```
+
+#### Actor Removal
+```python
+python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version train --attribute --remove
+```
+
 ## notes

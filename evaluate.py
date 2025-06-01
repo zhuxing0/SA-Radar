@@ -7,9 +7,6 @@ from tqdm import tqdm
 from core.ICFARNet import ICFARNet, autocast
 import core.datasets as datasets
 
-# import os
-# os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
@@ -41,7 +38,7 @@ def validate(model, dataset_all=['raddet'], mixed_prec=False, attribute=False):
     epe_list = []
     epe_obj_list = []
     print('begin eval !')
-    for val_id in tqdm(range(0, len(val_dataset), 20)):
+    for val_id in tqdm(range(0, len(val_dataset))): # , 20
         try:
             if attribute:
                 radar_cube_gt, radar_point, segment_mask, sigma, g, Rs, lambda_ = val_dataset[val_id]
