@@ -17,6 +17,8 @@ This repo contains the official code of our paper: [Simulate Any Radar: Attribut
 
 - June 4, 2025: Release paper.
 
+- June 3, 2025: Release some Downstream Model Weights (3D detection).
+
 - June 1, 2025: Release project page.
 
 ## 📊 Overview
