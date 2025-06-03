@@ -84,7 +84,7 @@ def validate(model, dataset_all=['raddet'], mixed_prec=False, attribute=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--restore_ckpt', help="restore checkpoint", default='./models/icfar-net.pth')
-    parser.add_argument('--dataset', help="dataset for evaluation", default='raddet', choices=['raddet', 'cruw', 'carrada'])
+    parser.add_argument('--dataset', help="dataset for evaluation", default='raddet', choices=['raddet', 'carrada'])
     parser.add_argument('--mixed_precision', default=True, action='store_true', help='use mixed precision')
 
     # ICFARNet Settings    

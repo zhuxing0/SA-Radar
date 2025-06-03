@@ -17,7 +17,7 @@ This repo contains the official code of our paper: [Simulate Any Radar: Attribut
 
 - June 4, 2025: Release paper.
 
-- June 3, 2025: Release Downstream Model Weights.
+- June 3, 2025: Release checkpoints of ICFAR-Net and downstream models.
 
 - June 1, 2025: Release project page.
 
@@ -55,7 +55,6 @@ matches or surpasses real data, and provides consistent gains when combined with
 - [Evaluate the Pre-train Model](#evaluate-the-pre-train-model)
 - [Train Your Model](#train-your-model)
 - [Run Radar Simulation](#run-radar-simulation)
-- [Notes](#notes)
 
 ### Environment Setup
 
@@ -112,9 +111,15 @@ Download the dataset and arrange it as the folloing directory tree,
 	|-- ***
 ```
 
-### Evaluate the pre-train model
+### Evaluate the pre-train models
 ```python
 python evaluate.py --restore_ckpt ./models/icfar-net.pth --attribute
+or
+python evaluate.py --restore_ckpt ./models/icfar-net_trained_by_A.pth --attribute
+or
+python evaluate.py --restore_ckpt ./models/icfar-net_trained_by_B.pth --attribute
+or
+python evaluate.py --restore_ckpt ./models/icfar-net_trained_by_C.pth --attribute
 ```
 
 ### Train your model
