@@ -145,6 +145,12 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 or 
 python demo.py --restore_ckpt ./checkpoints/icfar_mixed_bs3_lr0.0002_50e/icfar-net.pth --save_numpy --version train --attribute
 ```
+#### run radar simulation on NuScene v1 mini
+```python
+python demo_on_NuScenes.py --restore_ckpt ./models/icfar-net.pth --attribute --time_steps 100
+or
+python demo_on_NuScenes.py --restore_ckpt ./models/icfar-net_wo-re.pth --time_steps 100
+```
 
 #### Scene Editing
 

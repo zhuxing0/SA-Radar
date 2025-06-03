@@ -392,7 +392,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--restore_ckpt', help="restore checkpoint", default='./models/icfar-net.pth')
 
-    parser.add_argument('--radar_path', help="path to all radar_cube", default='dataset/RADDet')
+    parser.add_argument('--radar_path', help="path to all radar_cube", default='./dataset/RADDet')
     parser.add_argument("--version", type=str, default="train", help="train or test.")
     parser.add_argument('--output_directory', help="directory to save output", default="./sim_output/")
     parser.add_argument('--save_numpy', action='store_true', help='save output as numpy arrays')
