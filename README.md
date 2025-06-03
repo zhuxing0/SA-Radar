@@ -55,6 +55,7 @@ matches or surpasses real data, and provides consistent gains when combined with
 - [Evaluate the Pre-train Model](#evaluate-the-pre-train-model)
 - [Train Your Model](#train-your-model)
 - [Run Radar Simulation](#run-radar-simulation)
+- [Downstream Tasks](#downstream-tasks)
 
 ### Environment Setup
 
@@ -160,6 +161,28 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 ```python
 python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version train --attribute --remove
 ```
+
+### Downstream Tasks
+
+We provide pre-trained weights of the models on different downstream tasks in the [downstream_ckps](downstream_ckps) folder, including real-data-trained, simulated-data-trained, and co-trained versions.
+
+#### Running a Pre-trained Model
+For 3D detection, copy the corresponding checkpoints into [RADDet](https://github.com/ZhangAoCanada/RADDet) and run:
+```python
+# RAD head
+python validate.py --config_dir ./configs/config.json --resume_from {model.pth}
+or
+# RA head
+python validate_cart.py --config_dir ./configs/config.json --resume_from {model.pth}
+```
+
+For 2D detection (RD), copy the corresponding config and checkpoint files into [mmdetection](https://github.com/open-mmlab/mmdetection) and run:
+```python
+python tools/test.py --config configs/{config.py} --checkpoint work_dirs/{model.pth}
+```
+
+#### Training Your Downstream Model
+After running demo.py, the generated simulation data is saved to the `./sim_output` folder (set via *--output_directory*). The simulation data format is identical to the RADDet dataset, which you can use to train your downstream model.
 
 # 🤝 Citation
 
