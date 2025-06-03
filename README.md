@@ -150,7 +150,7 @@ python demo.py --restore_ckpt ./checkpoints/icfar_mixed_bs3_lr0.0002_50e/icfar-n
 
 ##### Attribute Modification
 
-Modify the *attribute_list* in demo.py directly.
+Modify the *attribute_list* in `demo.py` directly.
 
 ##### Novel Trajectories
 ```python
@@ -167,7 +167,7 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 We provide pre-trained weights of the models on different downstream tasks in the [downstream_ckps](downstream_ckps) folder, including real-data-trained, simulated-data-trained, and co-trained versions.
 
 #### Running a Pre-trained Model
-For 3D detection, copy the corresponding checkpoints into [RADDet](https://github.com/ZhangAoCanada/RADDet) and run:
+For 3D detection, copy the checkpoints from `./downstream_ckps/3d-det` folder into [RADDet](https://github.com/ZhangAoCanada/RADDet) and run:
 ```python
 # RAD head
 python validate.py --config_dir ./configs/config.json --resume_from {model.pth}
@@ -176,13 +176,13 @@ or
 python validate_cart.py --config_dir ./configs/config.json --resume_from {model.pth}
 ```
 
-For 2D detection (RD), copy the corresponding config and checkpoint files into [mmdetection](https://github.com/open-mmlab/mmdetection) and run:
+For 2D detection (RD), copy the config and checkpoint files from `./downstream_ckps/2d-det (RTMDet Model on mmdet)` folder into [mmdetection](https://github.com/open-mmlab/mmdetection), and run:
 ```python
 python tools/test.py --config configs/{config.py} --checkpoint work_dirs/{model.pth}
 ```
 
 #### Training Your Downstream Model
-After running demo.py, the generated simulation data is saved to the `./sim_output` folder (set via *--output_directory*). The simulation data format is identical to the RADDet dataset, which you can use to train your downstream model.
+After running `demo.py`, the generated simulation data is saved to the `./sim_output` folder (set via *--output_directory*). The simulation data format is identical to the RADDet dataset, which you can use to train your downstream model.
 
 # 🤝 Citation
 
