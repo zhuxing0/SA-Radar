@@ -14,12 +14,9 @@ import os
 import time
 import matplotlib.pyplot as plt
 import pickle
-import cv2
 from core.ICFARNet import ICFARNet, autocast
 import torch
 from core.datasets import extract_local_maxima, compute_the_Attribute
-import matplotlib.cm as cm
-import random
 
 def __viz_cube(radar_cube: np.ndarray, cube_vis_path: str, name: str, center_radar_cube = None, s=3, range_idx_list=None, azimuth_idx_list=None, class_name_list=None):
     
