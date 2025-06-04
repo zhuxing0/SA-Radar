@@ -195,11 +195,14 @@ After running `demo.py`, the generated simulation data is saved to the `./sim_ou
 If you find this repository helpful, please consider citing our paper:
 
 ```bibtex
-@article{xxx,
-  title={xxx}, 
-  author={xxx},
-  journal={arXiv preprint arXiv:2505.xxx},
-  year={2025}
+@misc{xiao2025simulateradarattributecontrollableradar,
+      title={Simulate Any Radar: Attribute-Controllable Radar Simulation via Waveform Parameter Embedding}, 
+      author={Weiqing Xiao and Hao Huang and Chonghao Zhong and Yujie Lin and Nan Wang and Xiaoxue Chen and Zhaoxi Chen and Saining Zhang and Shuocheng Yang and Pierre Merriaux and Lei Lei and Hao Zhao},
+      year={2025},
+      eprint={2506.03134},
+      archivePrefix={arXiv},
+      primaryClass={eess.SP},
+      url={https://arxiv.org/abs/2506.03134}, 
 }
 ```
 
