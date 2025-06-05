@@ -41,11 +41,11 @@ matches or surpasses real data, and provides consistent gains when combined with
 
 - Comparison of detection results between the model trained on SA-Radar simulation data and the baseline on real sequences.
 
-![gif2](./assets/html_RADDet_test_000028to001104.gif)
+![gif2](./assets/html_RADDet_test.gif)
 
 -  Comparison of detection results between the model trained on SA-Radar simulation data and the baseline on simulated sequences.
 
-![gif3](./assets/html_sim_data_RADDet_test_sim_000028to001104.gif)
+![gif3](./assets/html_RADDet_test_sim.gif)
 
 
 ## 🚀 Table of Contents
