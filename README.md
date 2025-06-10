@@ -173,7 +173,7 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 We provide pre-trained weights of the models on different downstream tasks in the [downstream_ckps](downstream_ckps) folder, including real-data-trained, simulated-data-trained, and co-trained versions.
 
 #### Running a Pre-trained Model
-For 3D detection, copy the checkpoints from `./downstream_ckps/3d-det` folder into [RADDet](https://github.com/ZhangAoCanada/RADDet) and run:
+For 3D detection, copy the checkpoints from `./downstream_ckps/3d-det` folder into [RADDet_Pytorch](https://github.com/auroua/RADDet_Pytorch) and run:
 ```python
 # RAD head
 python validate.py --config_dir ./configs/config.json --resume_from {model.pth}
