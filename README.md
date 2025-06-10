@@ -182,7 +182,10 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 
 We provide pre-trained weights of the models on different downstream tasks in the [downstream_ckps](downstream_ckps) folder, including real-data-trained, simulated-data-trained, and co-trained versions.
 
-#### Running a Pre-trained Model
+#### Running a Pre-trained Model and Training Your Downstream Model
+
+After running `demo.py`, the generated simulation data is saved to the `./sim_output` folder (set via *--output_directory*). The simulation data format is identical to the RADDet dataset, which you can use to train your downstream model.
+
 For 3D detection, copy `./downstream_ckps/RADDet_Pytorch/*` files and the checkpoints from `./downstream_ckps/3d-det` folder into [RADDet_Pytorch](https://github.com/auroua/RADDet_Pytorch) and run:
 ```python
 # train RAD head on RADDet
@@ -206,9 +209,6 @@ For 2D detection (RD), copy the config and checkpoint files from `./downstream_c
 ```python
 python tools/test.py --config configs/{config.py} --checkpoint work_dirs/{model.pth}
 ```
-
-#### Training Your Downstream Model
-After running `demo.py`, the generated simulation data is saved to the `./sim_output` folder (set via *--output_directory*). The simulation data format is identical to the RADDet dataset, which you can use to train your downstream model.
 
 # 🤝 Citation
 
