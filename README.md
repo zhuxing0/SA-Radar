@@ -76,40 +76,50 @@ pip install numpy==1.26.4
 
 ### Dataset Preparation
 
-Please keep the same directory tree as shown in [RADDet dataset](https://github.com/ZhangAoCanada/RADDet?tab=readme-ov-file#DatasetLink).
+Please keep the same directory tree as shown in [RADDet dataset](https://github.com/ZhangAoCanada/RADDet?tab=readme-ov-file#DatasetLink) and [Carrada dataset](https://github.com/valeoai/carrada_dataset).
 
-Download the dataset and arrange it as the folloing directory tree,
+Download the datasets and arrange them as the folloing directory tree,
 ```bash
-|-- train
-	|-- RAD
-		|-- part1
-			|-- ******.npy
-			|-- ******.npy
-		|-- part2
-			|-- ******.npy
-			|-- ******.npy
-	|-- gt
-		|-- part1
-			|-- ******.pickle
-			|-- ******.pickle
-		|-- part2
-			|-- ******.pickle
-			|-- ******.pickle
-	|-- stereo_image
-		|-- part1
-			|-- ******.jpg
-			|-- ******.jpg
-		|-- part2
-			|-- ******.jpg
-			|-- ******.jpg
-|-- test
-	|-- RAD
-		|-- part1
-            |-- ***
-	|-- gt
-		|-- part1
-            |-- ***
-	|-- ***
+|-- RADDet
+	|-- train
+		|-- RAD
+			|-- part1
+				|-- ******.npy
+				|-- ******.npy
+		|-- gt
+			|-- part1
+				|-- ******.pickle
+				|-- ******.pickle
+		|-- stereo_image
+			|-- part1
+				|-- ******.jpg
+				|-- ******.jpg
+	|-- test
+		|-- RAD
+			|-- ***
+		|-- gt
+			|-- ***
+		|-- stereo_image
+			|-- ***
+|-- Carrada
+	|-- Carrada
+		|-- data_seq_ref.json
+		|-- 2019-09-16-12-52-12
+			|-- annotations/box/range_angle_light.json
+			|-- annotations/box/range_doppler_light.json
+		|-- 2019-09-16-12-55-51
+			|-- annotations/box/range_angle_light.json
+			|-- annotations/box/range_doppler_light.json
+		|-- ***
+	|-- datasets_master
+		|-- Carrada_RAD
+			|-- 2019-09-16-12-52-12
+				|-- RAD_numpy
+					|-- 000000.npy
+					|-- 000001.npy
+					|-- ***
+			|-- 2019-09-16-12-55-51
+			|-- ***
 ```
 
 ### Evaluate the pre-train models
