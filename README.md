@@ -173,13 +173,23 @@ python demo.py --restore_ckpt ./models/icfar-net.pth --save_numpy --version trai
 We provide pre-trained weights of the models on different downstream tasks in the [downstream_ckps](downstream_ckps) folder, including real-data-trained, simulated-data-trained, and co-trained versions.
 
 #### Running a Pre-trained Model
-For 3D detection, copy the checkpoints from `./downstream_ckps/3d-det` folder into [RADDet_Pytorch](https://github.com/auroua/RADDet_Pytorch) and run:
+For 3D detection, copy `./downstream_ckps/RADDet_Pytorch/*` files and the checkpoints from `./downstream_ckps/3d-det` folder into [RADDet_Pytorch](https://github.com/auroua/RADDet_Pytorch) and run:
 ```python
-# RAD head
-python validate.py --config_dir ./configs/config.json --resume_from {model.pth}
-or
-# RA head
-python validate_cart.py --config_dir ./configs/config.json --resume_from {model.pth}
+# train RAD head on RADDet
+python train_SA_Radar.py --dataset RADDET --config_dir ./configs/config_simraddet_1000e_final.json --add_train_dir {sim_data_path}(optional)
+python validate_SA_Radar.py --config_dir ./configs/config_simraddet_1000e_final.json --dataset RADDET --resume_from {RAD_ckp_path}
+
+# train RAD head on Carrada
+python train_SA_Radar.py --dataset CARRADA --config_dir ./configs/config_simcarrada_1000e_final.json --add_train_dir {sim_data_path}(optional)
+python validate_SA_Radar.py --config_dir ./configs/config_simcarrada_1000e_final.json --dataset CARRADA --resume_from {RAD_ckp_path}
+
+# train RA head on RADDet (to be release)
+python train_cart_SA_Radar.py --dataset RADDET --config_dir ./configs/config_simraddet_1000e_final.json --backbone_resume_from {RAD_ckp_path} --add_train_dir {sim_data_path}(optional)
+python validate_cart_SA_Radar.py --dataset RADDET --config_dir ./configs/config_simraddet_1000e_final.json --resume_from {RA_ckp_path}
+
+# train RA head on Carrada (to be release)
+python train_cart_SA_Radar.py  --dataset CARRADA --config_dir ./configs/config_simcarrada_1000e_final.json --backbone_resume_from {RAD_ckp_path} --add_train_dir {sim_data_path}(optional)
+python validate_cart_SA_Radar.py --dataset CARRADA --config_dir ./configs/config_simcarrada_1000e_final.json --resume_from {RA_ckp_path}
 ```
 
 For 2D detection (RD), copy the config and checkpoint files from `./downstream_ckps/2d-det (RTMDet Model on mmdet)` folder into [mmdetection](https://github.com/open-mmlab/mmdetection), and run:
